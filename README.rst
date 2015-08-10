@@ -28,4 +28,4 @@ limit      Int                (optional, default=10000) How many events to read 
 
 **CURL example**::
 
-  curl https://$(HOST).pipelines.tempoiq.com/api/pipelines/name/$(PIPELINE_NAME/history?key=foo&start=2015-01-01&end=2015-02-01 -v -u $(API_KEY):$(API_SECRET)
+  curl https://acme-inc.pipelines.tempoiq.com/api/pipelines/name/PowerGeneration/history?key=IL&start=2015-01-01&end=2015-02-01 -v -u $(API_KEY):$(API_SECRET)
