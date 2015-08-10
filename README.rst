@@ -24,6 +24,7 @@ key        String             The group-by key to read from
 start      ISO8601 timestamp  The start of the time interval for the desired data
 end        ISO8601 timestamp  The end of the time interval for the desired data
 limit      Int                (optional, default=10000) How many events to read total
+=========  =================  =======================================================
 
 **CURL example**::
 
