@@ -9,7 +9,7 @@ GET, POST, PUT, and DELETE.
 Reading historical data
 -----------------------
 
-**Full URI:**::
+**Full URI**::
 
   https://$(YOUR_HOST).pipelines.tempoiq.com/api/pipelines/name/$(PIPELINE_NAME)/history
 
@@ -17,9 +17,9 @@ Reading historical data
 
 **Parameters:**
 
-=========  =================  ===========
+=========  =================  =======================================================
 Parameter  Type               Description
-=========  =================  ===========
+=========  =================  =======================================================
 key        String             The group-by key to read from
 start      ISO8601 timestamp  The start of the time interval for the desired data
 end        ISO8601 timestamp  The end of the time interval for the desired data
