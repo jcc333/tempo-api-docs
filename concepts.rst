@@ -1,29 +1,11 @@
-=================
-TempoIQ Pipelines
-=================
-
-
-*Pipelines* is a new service from TempoIQ, and we are inviting you
-to be among the first to try it.
-
-Pipelines enable you to analyze and visualize your sensor data in realtime.
-
-.. image:: /images/pipelines.png
-
-The process is simple:
-
-1. Define a pipeline to calculate a streaming metric based on your live sensor data, 
-   such as average temperature in a building or total energy generated today.
-2. Get push updates in a graph or via an API as your devices
-   write new data. That's it!
-
-We'll go into a few specific examples shortly, but first we'll cover the three
-basic components of the Pipelines system: events, analytics, and publishers.
+================
+TempoIQ Concepts
+================
 
 Events
 ------
 
-You send data to the Pipelines system as a sequence of events. An event is
+You send data to TempoIQ as a sequence of events. An event is
 a JSON object, which can contain any number of attributes containing measurements, 
 metadata, or nested objects.
 
@@ -52,11 +34,14 @@ want to provide your own timestamp, for instance, if you are batching events
 over time and writing many at once, you can override it through a special timestamp
 field. 
 
+Typically events are sent as JSON over HTTPS, but we also support MQTT and other
+protocols.
+
 
 Analytics
 ---------
 
-Analytics calculate specific metrics from the raw stream of input
+Analytics are the heart of TempoIQ--they calculate specific metrics from the raw stream of input
 events. They can filter for a subset of events, group into 
 sub-streams based on data in the events, and aggregate values
 over time or across devices. 
@@ -65,21 +50,26 @@ Example: For each *userInfo.region*, find the average *currentTemp* of all
 events so far this hour.
 
 Analytics are persistent operations. In other words, after you've 
-defined an analytic, it will continue to process new events and emit 
-updated results.
+defined an analytic, it will continue to process new events as they come in.
 
 
-Publishers
-----------
+Charts
+------
 
-Once you set up your analytics, you can subscribe to updates through a publisher.
-We support a graphical publisher--a dashboard website with a streaming graph--
-and a websocket publisher for your applications to consume directly. In either case, 
-you receive updates continously as long as you're subscribed. 
+Once you set up your analytics, you can view the output on a realtime chart.
+This chart can be added to a dashboard, and even shared with people outside your 
+organization.
 
-If you have analytics that group the input events into sub-streams, you can subscribe to
-just a single stream. Using the example above, you could stream a graph showing
-only the average temperature for the *south* region.
+If you have analytics that perform a grouping operation, for example, average temperature per region,
+you can create a chart to display one group or all groups.
+
+
+Alerts
+------
+
+TempoIQ enables you to define rules to send an alert if an analytic crosses a 
+threshold. These alerts can be sent to other applications via HTTPS, which can then be used to send
+notifications via email or SMS.
 
 
 Examples
@@ -109,6 +99,7 @@ Single device dashboard
 A dashboard for an inverter which continuously updates with the latest value for 
 each measurement. Given an inverter ID, they can subscribe to raw events to display
 in gauges or graphs.
+
 
 Instantaneous totals
 ~~~~~~~~~~~~~~~~~~~~
