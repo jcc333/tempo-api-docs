@@ -1,5 +1,10 @@
+---
+layout: default
+title: TempoIQ HTTP API
+---
+
 Tempo HTTP API
-=============
+==============
 
 The Tempo API exposes Tempo resources, such as historical data storage, to 
 downstream clients.  These resources may be accessed using the HTTP methods
@@ -11,7 +16,7 @@ Reading historical data
 
 **Full URI**::
 
-  https://$(YOUR_HOST).pipelines.tempoiq.com/api/pipelines/name/$(PIPELINE_NAME)/history
+    https://$(YOUR_HOST).pipelines.tempoiq.com/api/pipelines/name/$(PIPELINE_NAME)/history
 
 **Supported HTTP methods:** *GET*
 
@@ -28,4 +33,4 @@ limit      Int                (optional, default=10000) How many events to read 
 
 **CURL example**::
 
-  curl https://acme-inc.pipelines.tempoiq.com/api/pipelines/name/PowerGeneration/history?key=IL&start=2015-01-01&end=2015-02-01 -v -u $(API_KEY):$(API_SECRET)
+    curl https://acme-inc.pipelines.tempoiq.com/api/pipelines/name/PowerGeneration/history?key=IL&start=2015-01-01&end=2015-02-01 -v -u $(API_KEY):$(API_SECRET)
