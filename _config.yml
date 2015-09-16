@@ -3,7 +3,7 @@ title: TempoIQ API Documentation
 email: support@tempoiq.com
 description: > # this means to ignore newlines until "baseurl:"
   Documentation for TempoIQ's APIs. 
-baseurl: "/docs"
+baseurl: "/tempo-api-docs"
 #url: "http://docs.tempoiq.com" # the base hostname & protocol for your site
 twitter_username: tempo_iq
 github_username:  TempoIQ
