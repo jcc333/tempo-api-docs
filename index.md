@@ -28,18 +28,16 @@ address subsets of the data. This is often a device or user ID.
 
 **Endpoint**:  `GET https://<HOST>/api/views/id/<VIEW_ID>/history`
 
-**Query string parameters**
+**Query string parameters:**
 
-| Parameter | Type             | Description
-|-----------|------------------|-------------------------------------------------
-| key       | String            | The grouping key to read from
-| start     | ISO8601 timestamp | The start of the time interval for the desired data
-| end       | ISO8601 timestamp | The end of the time interval for the desired data
-| limit     | Int               | Maximum number of events to return (optional, default=10000)
+* **key** (String) -- The grouping key to read from
+* **start** (ISO8601 timestamp) -- The start of the time interval for the desired data
+* **end** (ISO8601 timestamp) -- The end of the time interval for the desired data
+* **limit** (Integer) -- Maximum number of events to return (optional, default=10000)
 
 **Returns:** JSON object with *events* array
 
-**CURL example**:
+**Example:**
 
     curl -i -u $(API_KEY):$(API_SECRET) \
         'https://acme-inc.pipelines.tempoiq.com/api/views/id/00000000-0000-0001-0000-000000000001/history?key=device1&start=2015-09-14&end=2015-09-16'
@@ -59,17 +57,15 @@ Get a websocket which pushes updates for a view.
 
 **Endpoint**: `GET wss://<HOST>/ws/`
 
-**Query string parameters**
+**Query string parameters:**
 
-| Parameter   | Type           | Description
-|-------------|----------------|----------------------
-| pipeline    | UUID           | Key for pipeline to subscribe to
-| groups-to-include | String   | Filter the websocket for just this grouping key
-| auth        | String         | Base64-encoded string of "KEY:SECRET"
+* **pipeline** (UUID) -- Key for pipeline to subscribe to
+* **groups-to-include** (String) -- Filter the websocket for just this grouping key
+* **auth** (String) -- Base64-encoded string of "KEY:SECRET"
 
 **Returns:** Websocket connection which emits JSON events as they are generated
 
-**Example**:
+**Example:**
 
     curl -i -N -H "Connection: Upgrade" \
         -H "Upgrade: websocket" \
