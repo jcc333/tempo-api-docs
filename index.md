@@ -1,36 +1,80 @@
 ---
 layout: default
-title: TempoIQ HTTP API
+title: Analysis API
 ---
 
-Tempo HTTP API
-==============
+## Introduction
 
-The Tempo API exposes Tempo resources, such as historical data storage, to 
-downstream clients.  These resources may be accessed using the HTTP methods
-GET, POST, PUT, and DELETE.
+TempoIQ's analysis API enables you to read data from your environment programmatically.
+This lets you build custom visualizations, reports, or other tools as an alternative to
+our built-in views. 
+
+Our API uses HTTPS for historical queries. For realtime streaming features, we use
+the Websocket protocol. In the examples below, we will illustrate making API calls with the
+`curl` command line tool, but they should be easily transferrable to the HTTP library in your
+language of choice. If you have any questions or uncertainty about using our API in your application,
+just [email us](mailto:support@tempoiq.com)!
+
+In order to use the API, you need your **key**, **secret**, and **host**. You
+can find these on the Connect IQ page.
+
+## Analysis APIs
+
+### Reading historical data
+
+Get the history for a view. In order to access stored data, the view must 
+have a "grouping" field defined. This is the field in the event which you use to
+address subsets of the data. This is often a device or user ID.
+
+**Endpoint**:  `GET https://<HOST>/api/views/id/<VIEW_ID>/history`
+
+**Query string parameters**
+
+| Parameter | Type             | Description
+|-----------|------------------|-------------------------------------------------
+| key       | String            | The grouping key to read from
+| start     | ISO8601 timestamp | The start of the time interval for the desired data
+| end       | ISO8601 timestamp | The end of the time interval for the desired data
+| limit     | Int               | Maximum number of events to return (optional, default=10000)
+
+**Returns:** JSON object with *events* array
+
+**CURL example**:
+
+    curl -i -u $(API_KEY):$(API_SECRET) \
+        'https://acme-inc.pipelines.tempoiq.com/api/views/id/00000000-0000-0001-0000-000000000001/history?key=device1&start=2015-09-14&end=2015-09-16'
+
+    ---- Response ----
+    HTTP/1.1 200 OK
+    Content-Type: application/json;charset=utf-8
+    Vary: Origin
+    Content-Length: 178
+
+    {"events":[{"power":23.0,"voltage":13.0,"device_id":"device1","_$_ts":"2015-09-15T19:12:51.534Z"},{"power":23.0,"voltage":15.0,"device_id":"device1","_$_ts":"2015-09-15T19:13:03.105Z"}]}%
 
 
-Reading historical data
------------------------
+### Subscribing to realtime data
 
-**Full URI**::
+Get a websocket which pushes updates for a view.
 
-    https://$(YOUR_HOST).pipelines.tempoiq.com/api/pipelines/name/$(PIPELINE_NAME)/history
+**Endpoint**: `GET wss://<HOST>/ws/`
 
-**Supported HTTP methods:** *GET*
+**Query string parameters**
 
-**Parameters:**
+| Parameter   | Type           | Description
+|-------------|----------------|----------------------
+| pipeline    | UUID           | Key for pipeline to subscribe to
+| groups-to-include | String   | Filter the websocket for just this grouping key
+| auth        | String         | Base64-encoded string of "KEY:SECRET"
 
-=========  =================  =======================================================
-Parameter  Type               Description
-=========  =================  =======================================================
-key        String             The group-by key to read from
-start      ISO8601 timestamp  The start of the time interval for the desired data
-end        ISO8601 timestamp  The end of the time interval for the desired data
-limit      Int                (optional, default=10000) How many events to read total
-=========  =================  =======================================================
+**Returns:** Websocket connection which emits JSON events as they are generated
 
-**CURL example**::
+**Example**:
 
-    curl https://acme-inc.pipelines.tempoiq.com/api/pipelines/name/PowerGeneration/history?key=IL&start=2015-01-01&end=2015-02-01 -v -u $(API_KEY):$(API_SECRET)
+    curl -i -N -H "Connection: Upgrade" \
+        -H "Upgrade: websocket" \
+        -H "Host: acme-inc.pipelines.tempoiq.com" \
+        -H "Origin: https://acme-inc.pipelines.tempoiq.com" \
+        'https://acme-inc.pipelines.tempoiq.com/ws/?pipeline=89cb74b5-8791-40c6-8e5a-8c714a661f35&auth=bXktYXBpLWtleTpteS1hcGktc2VjcmV0'
+
+
