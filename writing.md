@@ -8,7 +8,7 @@ TempoIQ accepts any valid JSON message as an event. In order to write data, you
 will need to know your environment's hostname, as well as an API key and secret.
 All this information can be found on your environment's Connect IQ page. 
 
-**Endpoint**:  `GET https://<HOST>/api/channels/0/event`
+**Endpoint**:  `POST https://<HOST>/api/channels/0/event`
 
 **Accepts**: JSON-encoded body
 
