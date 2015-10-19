@@ -1,5 +1,7 @@
 ---
+layout: default
 title: Concepts
+redirect_from: "/"
 ---
 
 ## Events

@@ -7,6 +7,8 @@ baseurl: "/tempo-api-docs"
 #url: "http://docs.tempoiq.com" # the base hostname & protocol for your site
 twitter_username: tempo_iq
 github_username:  TempoIQ
+gems:
+  - jekyll-redirect-from
 
 # Build settings
 markdown: kramdown
