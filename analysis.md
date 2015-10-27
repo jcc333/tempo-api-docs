@@ -50,27 +50,3 @@ address subsets of the data. This is often a device or user ID.
 
     {"events":[{"power":23.0,"voltage":13.0,"device_id":"device1","_$_ts":"2015-09-15T19:12:51.534Z"},{"power":23.0,"voltage":15.0,"device_id":"device1","_$_ts":"2015-09-15T19:13:03.105Z"}]}%
 
-
-### Subscribing to realtime data
-
-Get a websocket which pushes updates for a view.
-
-**Endpoint**: `GET wss://<HOST>/ws/`
-
-**Query string parameters:**
-
-* **pipeline** (UUID) -- Key for pipeline to subscribe to
-* **groups-to-include** (String) -- Filter the websocket for just this grouping key
-* **auth** (String) -- Base64-encoded string of "KEY:SECRET"
-
-**Returns:** Websocket connection which emits JSON events as they are generated
-
-**Example:**
-
-    curl -i -N -H "Connection: Upgrade" \
-        -H "Upgrade: websocket" \
-        -H "Host: acme-inc.pipelines.tempoiq.com" \
-        -H "Origin: https://acme-inc.pipelines.tempoiq.com" \
-        'https://acme-inc.pipelines.tempoiq.com/ws/?pipeline=89cb74b5-8791-40c6-8e5a-8c714a661f35&auth=bXktYXBpLWtleTpteS1hcGktc2VjcmV0'
-
-
