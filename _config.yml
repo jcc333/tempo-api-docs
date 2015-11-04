@@ -12,6 +12,7 @@ gems:
 
 # Build settings
 markdown: kramdown
+highlighter: pygments
 defaults:
   -
     scope:
