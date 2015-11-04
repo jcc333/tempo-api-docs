@@ -53,7 +53,7 @@ outside each language's standard library. If you are already using a different
 HTTP library, it may be worth adapting the example to use that library
 to avoid duplicated code.
 
-### iOS - Swift
+### iOS - Swift 2.0
 
 {% highlight swift %}
 
@@ -101,5 +101,64 @@ task.resume()   // Finally execute the request
 
 ### Android
 
+{% highlight java %}
 
-### curl
+/* To write from a UI thread: */
+String eventData = "{\"device_id\": \"abc123\", \"voltage\": 3.1415}";
+new TempoIQWriterTask().execute(eventData);     // Takes a JSON message serialized as a string
+
+/* Background task to write to TempoIQ */
+class TempoIQWriterTask extends AsyncTask<String, Void, Boolean> {
+    @Override
+    protected Boolean doInBackground(String... events) {
+        // Update 
+        String urlStr = new URL("https://YOUR-HOST.tempoiq.com/api/channels/0/event");
+        String creds = "API_KEY:API_SECRET";
+
+        // Just send the first event
+        String eventData = events[0];
+
+        Boolean success = false;
+        HttpURLConnection conn = null;
+        try {
+            URL url = new URL(urlStr);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+
+            // Set request headers
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept", "application/json");
+
+            String encodedCreds = Base64.encodeToString(creds.getBytes(), Base64.NO_WRAP);
+            System.out.println("creds: " + creds);
+            conn.setRequestProperty("Authorization", "Basic " + encodedCreds);
+
+            // Write event data
+            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+            wr.write(eventData);
+            wr.flush();
+
+            // Handle response
+            int statusCode = conn.getResponseCode();
+            if(statusCode == HttpURLConnection.HTTP_OK || statusCode == HttpURLConnection.HTTP_ACCEPTED){
+                System.out.println("Success!");
+                success = true;
+            }else{
+                System.out.println("Connection error: " + statusCode + " " + conn.getResponseMessage());
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+        return success;
+    }
+}
+
+{% endhighlight %}
+
