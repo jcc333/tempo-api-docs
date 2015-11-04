@@ -111,7 +111,7 @@ new TempoIQWriterTask().execute(eventData);     // Takes a JSON message serializ
 class TempoIQWriterTask extends AsyncTask<String, Void, Boolean> {
     @Override
     protected Boolean doInBackground(String... events) {
-        // Update 
+        // Set urlStr and creds based on your environment and credentials
         String urlStr = new URL("https://YOUR-HOST.tempoiq.com/api/channels/0/event");
         String creds = "API_KEY:API_SECRET";
 
